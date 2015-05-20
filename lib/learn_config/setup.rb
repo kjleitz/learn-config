@@ -1,3 +1,6 @@
+require 'faraday'
+require 'oj'
+
 module LearnConfig
   class Setup
     def self.run

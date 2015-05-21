@@ -21,6 +21,8 @@ module LearnConfig
         req.headers['Authorization'] = "Bearer #{token}"
       end
       puts response
+      puts response.status
+      puts response.body
 
       Oj.load(response, symbol_keys: true)
     end

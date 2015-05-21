@@ -28,7 +28,7 @@ module LearnConfig
     end
 
     def valid_token?
-      !!me
+      !!me.data
     end
   end
 end

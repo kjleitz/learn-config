@@ -3,28 +3,33 @@ require 'oj'
 module LearnConfig
   class Me
     attr_accessor :response, :id, :first_name, :last_name, :full_name,
-                  :username, :email, :github_gravatar, :github_uid, :data
+                  :username, :email, :github_gravatar, :github_uid, :data,
+                  :silent_output
 
-    def initialize(response)
-      @response = response
+    def initialize(response, silent_output: false)
+      @response      = response
+      @silent_output = silent_output
+
       parse!
     end
 
     def parse!
-      case response.status
-      when 200
+      if response.status == 200
         self.data = Oj.load(response.body, symbol_keys: true)
 
         populate_attributes!
-      when 401
-        puts "It seems your OAuth token is incorrect. Please re-run config with: learn-config --reset"
-        exit
-      when 500
-        puts "Something went wrong. Please try again."
-        exit
-      else
-        puts "Something went wrong. Please try again."
-        exit
+      elsif slient_output == false
+        case response.status
+        when 401
+          puts "It seems your OAuth token is incorrect. Please re-run config with: learn-config --reset"
+          exit
+        when 500
+          puts "Something went wrong. Please try again."
+          exit
+        else
+          puts "Something went wrong. Please try again."
+          exit
+        end
       end
 
       self

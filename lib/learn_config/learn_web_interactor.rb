@@ -7,17 +7,16 @@ module LearnConfig
 
     LEARN_URL = 'https://learn.co'
     API_ROOT  = '/api/v1'
-    ME_URL = '/users/me'
 
     def initialize(token)
       @token = token
-      @conn = Faraday.new(url: API_ROOT) do |faraday|
+      @conn = Faraday.new(url: LEARN_URL) do |faraday|
         faraday.adapter Faraday.default_adapter
       end
     end
 
     def me_endpoint
-      "#{API_ROOT}#{ME_URL}"
+      "#{API_ROOT}/users/me"
     end
 
     def me

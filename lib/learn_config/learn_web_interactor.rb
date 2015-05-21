@@ -24,11 +24,19 @@ module LearnConfig
         req.url me_endpoint
         req.headers['Authorization'] = "Bearer #{token}"
       end
-      puts response
-      puts response.status
-      puts response.body
 
-      Oj.load(response, symbol_keys: true)
+      case response.status
+      when 200
+        Oj.load(resonse.body, symbol_keys: true)
+      when 401
+        puts "It seems your OAuth token is incorrect. Please re-run config with: learn-config --reset"
+      when 500
+        puts "Something went wrong. Please try again."
+        exit
+      else
+        puts "Something went wrong. Please try again."
+        exit
+      end
     end
   end
 end

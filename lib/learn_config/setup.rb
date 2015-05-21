@@ -27,7 +27,7 @@ module LearnConfig
     def setup_learn_config_machine
       login, password = netrc.read
 
-      if !login || !password
+      if (!login || !password) || !LearnConfig::LearnWebInteractor.new(password, silent_output: true).valid_token?
         github_username, _uid = netrc.read(machine: 'flatiron-push')
         oauth_token = LearnConfig::CLI.new(github_username).ask_for_oauth_token
         netrc.write(new_login: 'learn', new_password: oauth_token)

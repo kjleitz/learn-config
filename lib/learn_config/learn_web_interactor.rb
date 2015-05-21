@@ -26,5 +26,9 @@ module LearnConfig
 
       LearnConfig::Me.new(response)
     end
+
+    def valid_token?
+      !!me
+    end
   end
 end

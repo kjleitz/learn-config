@@ -31,9 +31,9 @@ module LearnConfig
     def whoami?
       _learn, token = netrc.read
       me = LearnConfig::LearnWebInteractor.new(token).me
-      puts "Name: #{me.full_name}"
+      puts "Name:     #{me.full_name}"
       puts "Username: #{me.username}"
-      puts "Email: #{me.email}"
+      puts "Email:    #{me.email}"
 
       exit
     end

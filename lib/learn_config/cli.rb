@@ -32,7 +32,7 @@ page at: https://learn.co/#{github_username ? github_username : 'your-github-use
     end
 
     def token_valid?
-      learn = LearnConfig::LearnWebInteractor.new(token)
+      learn = LearnConfig::LearnWebInteractor.new(token, silent_output: true)
       learn.valid_token?
       # TODO: Make authed request. If 200, valid. If 401/422/500 invalid.
     end

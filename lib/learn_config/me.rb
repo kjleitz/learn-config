@@ -21,14 +21,14 @@ module LearnConfig
       elsif silent_output == false
         case response.status
         when 401
-          puts "It seems your OAuth token is incorrect. Please re-run config with: learn-config --reset"
-          exit 1
+          puts "It seems your OAuth token is incorrect. Please re-run config with: learn reset"
+          exit
         when 500
           puts "Something went wrong. Please try again."
-          exit 1
+          exit
         else
           puts "Something went wrong. Please try again."
-          exit 1
+          exit
         end
       end
 

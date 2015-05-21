@@ -42,7 +42,6 @@ module LearnConfig
 
     def confirm_and_reset!
       if confirm_reset?
-        puts "CONFIRMED"
         netrc.delete!(machine: 'learn-config')
         netrc.delete!(machine: 'flatiron-push')
 

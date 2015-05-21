@@ -18,7 +18,7 @@ module LearnConfig
         self.data = Oj.load(response.body, symbol_keys: true)
 
         populate_attributes!
-      elsif slient_output == false
+      elsif silent_output == false
         case response.status
         when 401
           puts "It seems your OAuth token is incorrect. Please re-run config with: learn-config --reset"

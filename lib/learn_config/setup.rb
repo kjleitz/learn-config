@@ -29,7 +29,7 @@ module LearnConfig
 
       if !login || !password
         github_username, _uid = netrc.read(machine: 'flatiron-push')
-        oauth_token = LearnConfig::CLI.ask_for_oauth_token(github_username)
+        oauth_token = LearnConfig::CLI.new(github_username).ask_for_oauth_token
       end
     end
 

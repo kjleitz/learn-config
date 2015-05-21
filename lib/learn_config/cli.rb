@@ -1,6 +1,13 @@
 module LearnConfig
   class CLI
-    def self.ask_for_oauth_token(github_username)
+    attr_reader   :github_username
+    attr_accessor :token
+
+    def initialize(github_username)
+      @github_username = github_username
+    end
+
+    def ask_for_oauth_token
       puts <<-LONG
 To connect with the Learn web application, you will need to configure
 the Learn gem with an OAuth token. You can find yours on your profile
@@ -9,11 +16,23 @@ page at: https://learn.co/#{github_username ? github_username : 'your-github-use
       LONG
 
       print('Once you have it, please come back here and paste it in: ')
+      self.token = gets.chomp
 
-      oauth_token = gets.chomp
-      exit
+      verify_token_or_ask_again!
+    end
 
-      # TODO verify oauth token with learn interactor
+    private
+
+    def verify_token_or_ask_again!
+      if token_valid?
+        token
+      else
+        ask_for_oauth_token
+      end
+    end
+
+    def token_valid?
+      # TODO: Make authed request. If 200, valid. If 401/422/500 invalid.
     end
   end
 end

@@ -39,9 +39,24 @@ module LearnConfig
     end
 
     def confirm_and_reset!
-      puts "RESETTING"
+      if confirm_reset?
+        puts "CONFIRMED"
+        netrc.delete!(machine: 'learn-config')
+        netrc.delete!(machine: 'flatiron-push')
+
+        setup_netrc
+      end
 
       exit
+    end
+
+    def confirm_reset?
+      puts "This will remove your existing Learn login configuration and reset.\n"
+      print "Are you sure you want to do this? [yN]: "
+
+      response = gets.chomp.downcase
+
+      !!(response == 'yes' || response == 'y')
     end
 
     def setup_netrc

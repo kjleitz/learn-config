@@ -18,6 +18,11 @@ module LearnConfig
       netrc.save
     end
 
+    def delete!(machine:)
+      netrc.delete(machine)
+      netrc.save
+    end
+
     private
 
     def ensure_proper_permissions!

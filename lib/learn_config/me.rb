@@ -13,7 +13,7 @@ module LearnConfig
     def parse!
       case response.status
       when 200
-        self.data = Oj.load(resonse.body, symbol_keys: true)
+        self.data = Oj.load(response.body, symbol_keys: true)
 
         populate_attributes!
       when 401

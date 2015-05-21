@@ -13,7 +13,7 @@ module LearnConfig
       @login, @password = netrc[machine]
     end
 
-    def write(machine:, new_login:, new_password:)
+    def write(machine: 'learn-config', new_login:, new_password:)
       netrc[machine] = new_login, new_password
       netrc.save
     end

@@ -21,6 +21,7 @@ page at: https://learn.co/#{github_username ? github_username : 'your-github-use
         print "Hmm...that token doesn't seem to be correct. Please try again: "
       else
         puts "Sorry, you've tried too many times. Please check your token and try again later."
+        exit
       end
 
       self.token = gets.chomp

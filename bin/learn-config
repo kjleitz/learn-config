@@ -2,10 +2,13 @@
 
 require 'learn_config'
 
-KNOWN_COMMANDS = []
+KNOWN_COMMANDS = [
+  '--reset',
+  '--whoami'
+]
 
 ARGV.map! do |arg|
   KNOWN_COMMANDS.include?(arg) ? arg : nil
 end.compact!
 
-LearnConfig::Setup.run
+LearnConfig::Setup.run(ARGV)

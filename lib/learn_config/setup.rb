@@ -3,21 +3,46 @@ require 'oj'
 
 module LearnConfig
   class Setup
-    attr_reader :netrc
+    attr_reader :netrc, :args, :reset, :whoami
 
-    def self.run
-      new.run
+    def self.run(args)
+      new(args).run
     end
 
-    def initialize
-      @netrc = LearnConfig::NetrcInteractor.new
+    def initialize(args)
+      @args   = args
+      @netrc  = LearnConfig::NetrcInteractor.new
+      @reset  = !!args.include?('--reset')
+      @whoami = !!args.include?('--whoami')
     end
 
     def run
-      setup_netrc
+      if reset
+        confirm_and_reset!
+      elsif whoami
+        whoami?
+      else
+        setup_netrc
+      end
     end
 
     private
+
+    def whoami?
+      _learn, token = netrc.read
+      me = LearnConfig::LearnWebInteractor.new(token).me
+      puts "Name: #{me.full_name}"
+      puts "Username: #{me.username}"
+      puts "Email: #{me.email}"
+
+      exit
+    end
+
+    def confirm_and_reset!
+      puts "RESETTING"
+
+      exit
+    end
 
     def setup_netrc
       setup_learn_config_machine

@@ -1,5 +1,4 @@
 require 'faraday'
-require 'oj'
 
 module LearnConfig
   class LearnWebInteractor
@@ -25,18 +24,7 @@ module LearnConfig
         req.headers['Authorization'] = "Bearer #{token}"
       end
 
-      case response.status
-      when 200
-        Oj.load(resonse.body, symbol_keys: true)
-      when 401
-        puts "It seems your OAuth token is incorrect. Please re-run config with: learn-config --reset"
-      when 500
-        puts "Something went wrong. Please try again."
-        exit
-      else
-        puts "Something went wrong. Please try again."
-        exit
-      end
+      LearnConfig::Me.new(response)
     end
   end
 end

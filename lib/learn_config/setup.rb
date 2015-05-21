@@ -3,7 +3,7 @@ require 'oj'
 
 module LearnConfig
   class Setup
-    attr_reader :netrc, :args, :reset, :whoami
+    attr_reader   :netrc, :args, :reset, :whoami
 
     def self.run(args)
       new(args).run
@@ -18,8 +18,10 @@ module LearnConfig
 
     def run
       if reset
+        args.delete('--reset')
         confirm_and_reset!
       elsif whoami
+        args.delete('--whoami')
         whoami?
       else
         setup_netrc

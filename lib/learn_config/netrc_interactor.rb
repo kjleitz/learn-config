@@ -19,6 +19,8 @@ module LearnConfig
     end
 
     def delete!(machine:)
+      @netrc = Netrc.read
+
       netrc.delete(machine)
       netrc.save
     end

@@ -32,7 +32,6 @@ page at: https://learn.co/#{github_username ? github_username : 'your-github-use
       if token_valid?
         token
       else
-        puts ""
         ask_for_oauth_token(short_text: true)
       end
     end

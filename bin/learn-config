@@ -2,4 +2,10 @@
 
 require 'learn_config'
 
+KNOWN_COMMANDS = []
+
+ARGV.map! do |arg|
+  KNOWN_COMMANDS.include?(arg) ? arg : nil
+end.compact!
+
 LearnConfig::Setup.run

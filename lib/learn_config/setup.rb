@@ -35,7 +35,25 @@ module LearnConfig
     end
 
     def setup_flatiron_push_config_machine
-      login, password = netrc.read(machine: 'flatiron-push')
+      learn_login, token  = netrc.read(machine: 'learn-config')
+
+      if (!learn_login || !token) || !LearnConfig::LearnWebInteractor.new(token, silent_output: true).valid_token?
+        setup_learn_config_machine
+      else
+        ensure_correct_push_config(token)
+      end
+    end
+
+    def ensure_correct_push_config(token)
+      me              = LearnConfig::LearnWebInteractor.new(token).me
+      github_username = me.username
+      github_user_id  = me.github_uid
+
+      netrc.write(
+        machine: 'flatiron-push',
+        new_login: github_username,
+        new_password: github_user_id
+      )
     end
   end
 end

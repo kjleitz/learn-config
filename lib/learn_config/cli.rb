@@ -40,7 +40,7 @@ page at: https://learn.co/#{github_username ? github_username : 'your-github-use
     end
 
     def token_valid?
-      learn = LearnConfig::LearnWebInteractor.new(token, silent_output: true)
+      learn = LearnWeb::Client.new(token: token, silent_output: true)
       learn.valid_token?
     end
   end

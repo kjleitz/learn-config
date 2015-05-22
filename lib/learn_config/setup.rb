@@ -1,6 +1,3 @@
-require 'faraday'
-require 'oj'
-
 module LearnConfig
   class Setup
     attr_reader   :netrc, :args, :reset, :whoami
@@ -32,7 +29,7 @@ module LearnConfig
 
     def whoami?
       _learn, token = netrc.read
-      me = LearnConfig::LearnWebInteractor.new(token).me
+      me = LearnWeb::Client.new(token: token).me
       puts "Name:     #{me.full_name}"
       puts "Username: #{me.username}"
       puts "Email:    #{me.email}"
@@ -68,7 +65,7 @@ module LearnConfig
     def setup_learn_config_machine
       login, password = netrc.read
 
-      if (!login || !password) || !LearnConfig::LearnWebInteractor.new(password, silent_output: true).valid_token?
+      if (!login || !password) || !LearnWeb::Client.new(token: password, silent_output: true).valid_token?
         github_username, _uid = netrc.read(machine: 'flatiron-push')
         oauth_token = LearnConfig::CLI.new(github_username).ask_for_oauth_token
         netrc.write(new_login: 'learn', new_password: oauth_token)
@@ -78,7 +75,7 @@ module LearnConfig
     def setup_flatiron_push_config_machine
       learn_login, token  = netrc.read(machine: 'learn-config')
 
-      if (!learn_login || !token) || !LearnConfig::LearnWebInteractor.new(token, silent_output: true).valid_token?
+      if (!learn_login || !token) || !LearnWeb::Client.new(token: token, silent_output: true).valid_token?
         setup_learn_config_machine
       else
         ensure_correct_push_config(token)
@@ -86,7 +83,7 @@ module LearnConfig
     end
 
     def ensure_correct_push_config(token)
-      me              = LearnConfig::LearnWebInteractor.new(token).me
+      me              = LearnWeb::Client.new(token: token).me
       github_username = me.username
       github_user_id  = me.github_uid
 

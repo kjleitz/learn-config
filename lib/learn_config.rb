@@ -3,7 +3,7 @@ require 'learn_config/setup'
 require 'learn_config/netrc_interactor'
 require 'learn_config/cli'
 
-require 'learn-web'
+require 'learn_web'
 
 module LearnConfig
 end

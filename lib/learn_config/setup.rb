@@ -90,7 +90,8 @@ module LearnConfig
         FileUtils.mkdir_p(path)
 
         config_path = File.expand_path('~/.learn-config')
-        data = YAML.dump({ learn_directory: path })
+        existing_editor = YAML.load(File.read(config_path))[:editor]
+        data = YAML.dump({ learn_directory: path, editor: existing_editor })
 
         File.write(config_path, data)
       else

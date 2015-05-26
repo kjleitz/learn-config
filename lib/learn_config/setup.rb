@@ -1,16 +1,17 @@
 module LearnConfig
   class Setup
-    attr_reader   :netrc, :args, :reset, :whoami
+    attr_reader   :netrc, :args, :reset, :whoami, :set_dir
 
     def self.run(args)
       new(args).run
     end
 
     def initialize(args)
-      @args   = args
-      @netrc  = LearnConfig::NetrcInteractor.new
-      @reset  = !!args.include?('--reset')
-      @whoami = !!args.include?('--whoami')
+      @args    = args
+      @netrc   = LearnConfig::NetrcInteractor.new
+      @reset   = !!args.include?('--reset')
+      @whoami  = !!args.include?('--whoami')
+      @set_dir = !!args.include?('--set-directory')
     end
 
     def run
@@ -19,22 +20,42 @@ module LearnConfig
         confirm_and_reset!
       elsif whoami
         args.delete('--whoami')
+        check_config
         whoami?
+      elsif set_dir
+        args.delete('--set-directory')
+        check_config
+        set_directory!
       else
-        setup_netrc
+        check_config
       end
     end
 
     private
 
+    def check_config
+      setup_netrc
+      setup_learn_directory
+    end
+
     def whoami?
       _learn, token = netrc.read
       me = LearnWeb::Client.new(token: token).me
-      puts "Name:     #{me.full_name}"
-      puts "Username: #{me.username}"
-      puts "Email:    #{me.email}"
+      puts "Name:      #{me.full_name}"
+      puts "Username:  #{me.username}"
+      puts "Email:     #{me.email}"
+      puts "Learn Dir: #{learn_directory}"
 
       exit
+    end
+
+    def learn_directory
+      config_data = File.read(File.expand_path('~/.learn-config'))
+      YAML.load(config_data)[:learn_directory]
+    end
+
+    def set_directory!
+      raise 'Not implemented yet!'
     end
 
     def confirm_and_reset!
@@ -60,6 +81,41 @@ module LearnConfig
     def setup_netrc
       setup_learn_config_machine
       setup_flatiron_push_config_machine
+    end
+
+    def setup_learn_directory
+      if !config_file?
+        write_default_config!
+      end
+    end
+
+    def config_file?
+      path = File.expand_path('~/.learn-config')
+      File.exists?(path) && has_yaml?(path)
+    end
+
+    def has_yaml?(file_path)
+      !!YAML.load(File.read(file_path))[:learn_directory]
+    end
+
+    def write_default_config!
+      learn_dir = File.expand_path('~/Development/code')
+      config_path = File.expand_path('~/.learn-config')
+
+      ensure_default_dir_exists!(learn_dir)
+      ensure_config_file_exists!(config_path)
+
+      data = YAML.dump({ learn_directory: learn_dir })
+
+      File.write(config_path, data)
+    end
+
+    def ensure_default_dir_exists!(learn_dir)
+      FileUtils.mkdir_p(learn_dir)
+    end
+
+    def ensure_config_file_exists!(config_path)
+      FileUtils.touch(config_path)
     end
 
     def setup_learn_config_machine

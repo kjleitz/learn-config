@@ -1,3 +1,6 @@
+require 'yaml'
+require 'fileutils'
+
 require 'learn_config/version'
 require 'learn_config/setup'
 require 'learn_config/netrc_interactor'

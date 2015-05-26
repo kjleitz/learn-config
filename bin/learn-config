@@ -4,7 +4,8 @@ require 'learn_config'
 
 KNOWN_COMMANDS = [
   '--reset',
-  '--whoami'
+  '--whoami',
+  '--set-directory'
 ]
 
 ARGV.map! do |arg|

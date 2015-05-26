@@ -156,6 +156,11 @@ module LearnConfig
       dir_exists = dir && File.exists?(dir_path)
       editor     = !!yaml[:editor]
 
+      if !dir_exists
+        puts "It seems like your Learn directory isn't quite right. Let's fix that."
+        set_directory!
+      end
+
       dir && dir_exists && editor
     end
 

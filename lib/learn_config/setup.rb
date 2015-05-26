@@ -55,7 +55,20 @@ module LearnConfig
     end
 
     def set_directory!
-      raise 'Not implemented yet!'
+      path = ''
+
+      while !path.start_with?('/')
+        print "Enter the directory in which to store Learn lessons (/Users/#{ENV['USER']}/Development/code): "
+        path = gets.chomp
+
+        if path.start_with?('~')
+          path = file.expand_path(path)
+        end
+
+        if !path.start_with?('/')
+          puts "Absolute paths only, please!"
+        end
+      end
     end
 
     def confirm_and_reset!

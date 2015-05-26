@@ -87,13 +87,10 @@ module LearnConfig
       end
 
       if create_dir
-        puts "CREATING DIR"
         FileUtils.mkdir_p(path)
 
         config_path = File.expand_path('~/.learn-config')
         existing_editor = YAML.load(File.read(config_path))[:editor]
-        puts "EXISTING EDITOR"
-        puts existing_editor
         data = YAML.dump({ learn_directory: path, editor: existing_editor })
 
         File.write(config_path, data)

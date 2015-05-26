@@ -74,10 +74,31 @@ module LearnConfig
     end
 
     def write_new_directory_data!(path)
-      config_path = File.expand_path('~/.learn-config')
-      data = YAML.dump({ learn_directory: path })
+      create_dir = true
 
-      File.write(config_path, data)
+      if !new_directory_exists?(path)
+        print "#{path} doesn't exist. Create it? [Yn]: "
+        response = gets.chomp.downcase
+
+        if !['yes', 'y'].include?(response)
+          create_dir = false
+        end
+      end
+
+      if create_dir
+        FileUtils.mkdir_p(path)
+
+        config_path = File.expand_path('~/.learn-config')
+        data = YAML.dump({ learn_directory: path })
+
+        File.write(config_path, data)
+      else
+        set_directory!
+      end
+    end
+
+    def new_directory_exists?(path)
+      File.exists?(path)
     end
 
     def confirm_and_reset!

@@ -36,6 +36,7 @@ module LearnConfig
     def check_config
       setup_netrc
       setup_learn_directory
+      setup_editor
     end
 
     def whoami?
@@ -132,13 +133,28 @@ module LearnConfig
       end
     end
 
+    def setup_editor
+      if !config_file?
+        write_defalt_config!
+      end
+    end
+
     def config_file?
       path = File.expand_path('~/.learn-config')
       File.exists?(path) && has_yaml?(path)
     end
 
     def has_yaml?(file_path)
-      !!YAML.load(File.read(file_path)) && !!YAML.load(File.read(file_path))[:learn_directory]
+      !!YAML.load(File.read(file_path)) && valid_config_yaml?
+    end
+
+    def valid_config_yaml?
+      yaml       = YAML.load(File.read(file_path))
+      dir        = !!yaml[:learn_directory]
+      dir_exists = dir && File.exists?(dir)
+      editor     = !!yaml[:editor]
+
+      dir && dir_exists && editor
     end
 
     def write_default_config!
@@ -148,7 +164,7 @@ module LearnConfig
       ensure_default_dir_exists!(learn_dir)
       ensure_config_file_exists!(config_path)
 
-      data = YAML.dump({ learn_directory: learn_dir })
+      data = YAML.dump({ learn_directory: learn_dir, editor: 'subl' })
 
       File.write(config_path, data)
     end

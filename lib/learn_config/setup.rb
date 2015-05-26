@@ -95,7 +95,7 @@ module LearnConfig
     end
 
     def has_yaml?(file_path)
-      !!YAML.load(File.read(file_path))[:learn_directory]
+      !!YAML.load(File.read(file_path)) && !!YAML.load(File.read(file_path))[:learn_directory]
     end
 
     def write_default_config!

@@ -62,7 +62,7 @@ module LearnConfig
         path = gets.chomp
 
         if path.start_with?('~')
-          path = file.expand_path(path)
+          path = File.expand_path(path)
         end
 
         if !path.start_with?('/')

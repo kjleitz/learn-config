@@ -151,7 +151,8 @@ module LearnConfig
     def valid_config_yaml?(path)
       yaml       = YAML.load(File.read(path))
       dir        = !!yaml[:learn_directory]
-      dir_exists = dir && File.exists?(dir)
+      dir_path   = yaml[:learn_directory]
+      dir_exists = dir && File.exists?(dir_path)
       editor     = !!yaml[:editor]
 
       dir && dir_exists && editor

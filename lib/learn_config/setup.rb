@@ -162,6 +162,7 @@ module LearnConfig
       if !dir_exists
         puts "It seems like your Learn directory isn't quite right. Let's fix that."
         set_directory!
+        dir_exists = true
       end
 
       dir && dir_exists && editor

@@ -165,7 +165,7 @@ module LearnConfig
       ensure_default_dir_exists!(learn_dir)
       ensure_config_file_exists!(config_path)
 
-      data = YAML.dump({ learn_directory: learn_dir, editor: 'subl' })
+      data = YAML.dump({ learn_directory: learn_dir, editor: "subl" })
 
       File.write(config_path, data)
     end

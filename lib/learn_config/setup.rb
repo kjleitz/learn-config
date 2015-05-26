@@ -63,9 +63,9 @@ module LearnConfig
 
         if path.start_with?('~')
           path = File.expand_path(path)
-        end
-
-        if !path.start_with?('/')
+        elsif path == ''
+          path = "/Users/#{ENV['USER']}/Development/code"
+        elsif !path.start_with?('/')
           puts "Absolute paths only, please!"
         end
       end

@@ -69,6 +69,15 @@ module LearnConfig
           puts "Absolute paths only, please!"
         end
       end
+
+      write_new_directory_data!(path)
+    end
+
+    def write_new_directory_data!(path)
+      config_path = File.expand_path('~/.learn-config')
+      data = YAML.dump({ learn_directory: path })
+
+      File.write(config_path, data)
     end
 
     def confirm_and_reset!

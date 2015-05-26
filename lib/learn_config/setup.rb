@@ -80,7 +80,7 @@ module LearnConfig
         print "#{path} doesn't exist. Create it? [Yn]: "
         response = gets.chomp.downcase
 
-        if !['yes', 'y'].include?(response)
+        if !['yes', 'y', ''].include?(response)
           create_dir = false
         end
       end

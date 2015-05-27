@@ -39,9 +39,21 @@ page at: https://learn.co/#{github_username ? github_username : 'your-github-use
       end
     end
 
-    def token_valid?
+    def token_valid?(retries=3)
       learn = LearnWeb::Client.new(token: token, silent_output: true)
-      learn.valid_token?
+      begin
+        Timeout::timeout(15) do
+          learn.valid_token?
+        end
+      rescue Timeout::Error
+        if retries > 0
+          puts "There was an error validating your token. Retrying..."
+          token_valid?(retries-1)
+        else
+          puts "There was a problem connecting to Learn. Please try again."
+          exit
+        end
+      end
     end
   end
 end

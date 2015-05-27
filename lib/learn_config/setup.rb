@@ -39,9 +39,21 @@ module LearnConfig
       setup_editor
     end
 
-    def whoami?
+    def whoami?(retries=3)
       _learn, token = netrc.read
-      me = LearnWeb::Client.new(token: token).me
+      begin
+        me = Timeout::timeout(15) do
+          LearnWeb::Client.new(token: token).me
+        end
+      rescue Timeout::Error
+        if retries > 0
+          puts "There was an error connecting to Learn. Retrying..."
+          whoami?(retries-1)
+        else
+          puts "Could not connect to Learn. Please try again."
+          exit
+        end
+      end
       puts "Name:      #{me.full_name}"
       puts "Username:  #{me.username}"
       puts "Email:     #{me.email}"

@@ -1,5 +1,6 @@
 require 'yaml'
 require 'fileutils'
+require 'timeout'
 
 require 'learn_config/version'
 require 'learn_config/setup'

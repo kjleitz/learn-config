@@ -184,9 +184,19 @@ module LearnConfig
       ensure_default_dir_exists!(learn_dir)
       ensure_config_file_exists!(config_path)
 
-      data = YAML.dump({ learn_directory: learn_dir, editor: "subl" })
+      editor = get_default_editor
+
+      data = YAML.dump({ learn_directory: learn_dir, editor: editor })
 
       File.write(config_path, data)
+    end
+
+    def get_default_editor
+      ENV['EDITOR'] || (on_a_mac? ? 'subl' : '')
+    end
+
+    def on_a_mac?
+      !!RUBY_PLATFORM.match(/darwin/)
     end
 
     def ensure_default_dir_exists!(learn_dir)

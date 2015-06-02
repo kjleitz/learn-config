@@ -178,7 +178,7 @@ module LearnConfig
     end
 
     def write_default_config!
-      learn_dir = File.expand_path('~/Development/code')
+      learn_dir = on_a_mac? ? File.expand_path('~/Development/code') : File.expand_path('~/code')
       config_path = File.expand_path('~/.learn-config')
 
       ensure_default_dir_exists!(learn_dir)
@@ -213,7 +213,7 @@ module LearnConfig
       if (!login || !password) || !LearnWeb::Client.new(token: password, silent_output: true).valid_token?
         github_username, _uid = netrc.read(machine: 'flatiron-push')
         oauth_token = LearnConfig::CLI.new(github_username).ask_for_oauth_token
-        netrc.write(new_login: github_username, new_password: oauth_token)
+        netrc.write(new_login: 'learn', new_password: oauth_token)
       end
     end
 

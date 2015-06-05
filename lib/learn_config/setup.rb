@@ -178,7 +178,7 @@ module LearnConfig
     end
 
     def write_default_config!
-      learn_dir = on_a_mac? ? File.expand_path('~/Development/code') : File.expand_path('~/code')
+      learn_dir = on_a_mac? ? File.expand_path('~/Development/code') : File.expand_path('~/code/labs')
       config_path = File.expand_path('~/.learn-config')
 
       ensure_default_dir_exists!(learn_dir)

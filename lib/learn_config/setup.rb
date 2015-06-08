@@ -34,6 +34,7 @@ module LearnConfig
     private
 
     def check_config
+      puts "Connecting to Learn..."
       setup_netrc
       setup_learn_directory
       setup_editor
@@ -228,6 +229,7 @@ module LearnConfig
     end
 
     def ensure_correct_push_config(token)
+      puts "Authenticating..."
       me              = LearnWeb::Client.new(token: token).me
       github_username = me.username
       github_user_id  = me.github_uid

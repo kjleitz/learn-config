@@ -84,7 +84,12 @@ module LearnConfig
         end
       end
 
-      write_new_directory_data!(path)
+      if !File.directory?(path) && new_directory_exists?(path)
+        puts "That appears to be a file. Directories only, please!"
+        set_directory!
+      else
+        write_new_directory_data!(path)
+      end
     end
 
     def write_new_directory_data!(path)

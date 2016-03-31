@@ -72,13 +72,13 @@ module LearnConfig
       path = ''
 
       while !path.start_with?('/')
-        print "Enter the directory in which to store Learn lessons (/Users/#{ENV['USER']}/Development/code): "
+        print "Enter the directory in which to store Learn lessons (#{ENV['HOME']}/Development/code): "
         path = gets.chomp
 
         if path.start_with?('~')
           path = File.expand_path(path)
         elsif path == ''
-          path = "/Users/#{ENV['USER']}/Development/code"
+          path = "#{ENV['HOME']}/Development/code"
         elsif !path.start_with?('/')
           puts "Absolute paths only, please!"
         end

@@ -241,8 +241,8 @@ module LearnConfig
 
       netrc.write(
         machine: 'flatiron-push',
-        new_login: github_username,
-        new_password: github_user_id
+        new_login: github_username || 'learn',
+        new_password: github_user_id || 'learn'
       )
     end
   end

@@ -198,7 +198,7 @@ module LearnConfig
     end
 
     def get_default_editor
-      ENV['EDITOR'] || (on_a_mac? ? 'subl' : '')
+      ENV['EDITOR'] || (on_a_mac? ? 'atom' : '')
     end
 
     def on_a_mac?
